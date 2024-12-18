@@ -16,19 +16,20 @@ class _Alpaca:
     Wrap all used functions in standardized form, to be called by
     the Executor class.
     """
-    def __init__(self, api_key = None, secret_key = None, base_url = None):
+    def __init__(self, api_key=None, secret_key=None, base_url=None):
         """
-        If all values aren't based, a default object is generated using
+        If all values aren't passed, a default object is generated using
         keys provided in keys.ini.
         """
         # If all values weren't provided, use keys.ini values
-        if not all(locals().values()):
+        local_vars = locals()
+        if not all([api_key, secret_key, base_url]):
             api_key = keys.Alpaca.api_key
             secret_key = keys.Alpaca.api_secret
             base_url = keys.Alpaca.base_url
 
         # If no keys were provided in keys.ini
-        if not any(locals.values()):
+        if not any([api_key, secret_key, base_url]):
             raise Exception(
                 "Attempted to instantiate an Alpaca object but "
                 "found no API keys in keys.ini."
@@ -45,10 +46,15 @@ class _Alpaca:
     
 
     def current_price(self, symbol: str) -> float:
+        """
+        Get the current price of a symbol.
+        """
         if len(symbol) == 6:  # if crypto asset
             return float(self.alpaca.get_latest_crypto_trade(symbol, 'CBSE').p)
-
-        return float(self.alpaca.get_latest_trade(symbol))
+        
+        # For stocks, we need to access the price attribute of TradeV2
+        trade = self.alpaca.get_latest_trade(symbol)
+        return float(trade.p)  # 'p' is the price attribute of TradeV2
 
 
     def buy(

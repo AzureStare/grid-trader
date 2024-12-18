@@ -1,0 +1,58 @@
+# 配置文件
+*.ini
+*.conf
+*.config
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 虚拟环境
+venv/
+ENV/
+.env
+
+# IDE 配置
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# 日志文件
+*.log
+logs/
+
+# 数据库文件
+*.db
+*.sqlite3
+
+# 密钥和敏感信息
+*.pem
+*.key
+secrets.yaml
+.env.local
+.env.*.local
+
+# 临时文件
+*.tmp
+*.temp
+.cache

@@ -28,6 +28,13 @@ class GridTrader:
 
     It's recommended to deploy Grid Traders using multiprocessing. 
     """
+    @property
+    def asset_class(self) -> str:
+        """Determine if the symbol is a stock or crypto based on its length."""
+        if len(self.symbol) == 6:  # BTCUSD format
+            return 'crypto'
+        return 'stock'
+
     def __init__(
         self, 
         symbol: str, 
@@ -39,6 +46,9 @@ class GridTrader:
         top_profit_stop: float = None,
         bottom_profit_stop: float = None,
     ):
+        # Store symbol first so asset_class property can work
+        self.symbol = symbol.upper()
+
         # Exception if trading_range items aren't numbers
         if any(
             item for item in trading_range if not \
@@ -63,7 +73,6 @@ class GridTrader:
         self.executor = brokers.create_executor(broker)
 
         # Trading range
-        self.symbol = symbol.upper()
         self.range_bottom = trading_range[0]
         self.range_top = trading_range[1]
         self.grids_amount = grids_amount
